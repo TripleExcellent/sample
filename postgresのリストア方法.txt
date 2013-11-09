@@ -1,16 +1,77 @@
-postgresのリストア方法
+■postgresのリストア方法
+テキストの出力ではcopyコマンドで出力される。
+pg_dump testdb -f testdb.dump
+psql-d testdb -f testdb.dump
 
+■ダンプ
+-f…出力先のファイル名を指定
+pg_dump testdb > testdb.dump
+pg_dump testdb -f testdb.dump
 
+-b…ラージオブジェクト(画像、動画、巨大テキスト)を含む
+pg_dump -b testdb > testdb.dump
 
+-C…DB作成コマンドを含む
+pg_dump -C testdb > testdb.dump
 
+-s…スキーマのみ出力
+pg_dump -s testdb > testdb.dump
 
+-a…データのみ出力
+pg_dump -a testdb > testdb.dump
 
+-D…INSERTコマンドで出力
+pg_dump -D testdb > testdb.dump
 
+-a -D …データのみINSERT文で出力
+pg_dump -a -D testdb -f testdb.dump
 
+-t…テーブル単位で出力する
+pg_dump testdb -t testTable -f testdb.dump
+pg_dump testdb -t testTable -t testTable2 -f testdb.dump
 
+-a -D -t…テーブルデータのみINSERT文で出力
+pg_dump testdb -a -D -t testTable -f testdb.dump
 
+-Ft…pg_restore用のtarアーカイブで出力
+pg_dump -Ft testdb -f testdb.tar
 
+-Fc…pg_restore用の圧縮アーカイブで出力
+pg_dump -Fc testdb -f testdb.admp
 
+■リストア
+テキストとしてコマンドが記述されている(アーカイブされていない場合)
+psql-d testdb -f testdb.dump
+psql testdb -e < testdb.dump
 
+tarアーカイブ、圧縮アーカイブされている場合
+-d…全てリストアする
+pg_restore -d testdb testdb.tar
 
+-s…スキーマのみリストア
+pg_restore -s -d testdb testdb.tar
 
+-a…データのみリストア
+pg_restore -a -d testdb testdb.tar
+
+-v…リストア状況を把握
+pg_restore -v -d testdb testdb.tar
+
+■まとめ
+①psqlコマンドはアーカイブを使わずにpg_dumpした出力ファイルをリストアする
+②pg_restoreコマンドはtarアーカイブか圧縮アーカイブをリストアする
+
+■気をつけること
+-p…ポート番号を指定する
+pg_dump -d testdb -p 5433 -f testdb.dmp
+
+■リストア時にエラーが出る場合
+※某案件のファイルを見直して加筆・修正します。
+
+テキストで出力された場合、中を見るとSETやトリガ情報なども記述されている。
+①SET timeout
+②トリガを全てコメントアウトする。
+
+データをリストアするだけでよいなら、
+①データ定義部分以外コメントアウトする。
+テーブル定義されていて、カラムのデータが一致していればリストアできる。
