@@ -1,20 +1,20 @@
-��S2Dao��in��ɂ��� S2Dao.NET - SQL�R�����g
+■S2Daoのin句について S2Dao.NET - SQLコメント
 
-IN��Ƀo�C���h�ϐ���K�p�������ꍇ�͈ȉ��̂悤�ɂ��邱�Ƃ��o���܂��B
-IN /*������*/(..)
+IN句にバインド変数を適用したい場合は以下のようにすることが出来ます。
+IN /*引数名*/(..)
 
-IN��̏ꍇ�͈������̌��̃��e�����i�_�~�[�f�[�^�j�͕K�{�ƂȂ�܂��B �ȉ��̂悤�Ƀ��e�������L�q���ĉ������B
+IN句の場合は引数名の後ろのリテラル（ダミーデータ）は必須となります。 以下のようにリテラルを記述して下さい。
 IN /*names*/('aaa','bbb')
 
-������System.Collections.IList��z��̈����ƂȂ�܂��B��L��IN��̏ꍇ�́A�ȉ��̂悤�Ɉ�����p�ӂ��܂��B
-C#�̏ꍇ
+引数はSystem.Collections.IListや配列の引数となります。上記のIN句の場合は、以下のように引数を用意します。
+C#の場合
 string[] names = new string[]{"SCOTT", "SMITH", "JAMES"};
 
-���܂Ƃ�
-2dao�̍\����p���ċL�q����K�v���������B
-�@postgres��in��̍\���𗝉�����
-�AS2Dao��in��̍\���𗝉�����
-�\����������Ȃ��n�A�ꌩ�������̂ɃG���[���o��n�̖��ɑ΂��ẮA
-�t���[�����[�N�̖����K���A�\���ŊԈ���Ă���\���������B
+■まとめ
+2daoの構文を用いて記述する必要があった。
+①postgresのin句の構文を理解する
+②S2Daoのin句の構文を理解する
+構文が分からない系、一見正しいのにエラーが出る系の問題に対しては、
+フレームワークの命名規則、構文で間違っている可能性が高い。
 
-�����T�C�g�̃��t�@�����X�����Ȃ����Ƃ��邱�ƁB
+公式サイトのリファレンスを見ながら作業すること。
