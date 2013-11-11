@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Sample</title>
+</head>
+<body>
+<p>｢ページのソースを表示」で確認ください。</p>
+<script>
+//------------------------------
+//■配列
+//keyはindex、valueは値
+var array = ['red','green','blue','pink'];
+
+//■オブジェクトリテラル
+//keyはプロパティ名、valueは値
+var camera = {
+  height: '100px',
+  width: '100px',
+  price: '1,000円'
+};
+
+//オブジェクトを{}を使って定義することを、オブジェクトリテラル表記と呼ぶ。
+
+//メソッド
+//プロパティの値に関数を定義した場合、メソッドと呼ぶ
+var dog = {
+  name : 'pochi',
+  talk : function(){
+    return dog.name;
+  }
+};
+
+//オブジェクトの入れ子
+var cat = {
+  name : 'tama',
+  talk : {
+    angry : 'Woof',
+    happy : 'Woof!'
+  }
+};
+
+//プロパティへのアクセス
+console.log(cat.talk.happy);
+console.log(cat['talk']['happy']);
+
+//メソッドへのアクセス
+console.log(dog.talk());
+
+//オブジェクトにプロパティを追加する
+cat.sleep = 'zzz';
+
+//オブジェクトにメソッドを追加する
+cat.talk.soso = function(){ return cat.name; };
+
+//this
+var rabit = {
+  name : 'mimi',
+  talk : function(){
+    return this.name;
+  }
+};
+
+//オブジェクト内でthisが出てくると、「このオブジェクト」もしくは「現在のオブジェクト」という意味
+
+//------------------------------
+//■コンストラクタ関数
+//オブジェクトの作成には、コンストラクタ関数を使うことも出来る
+function Bard(){
+  this.name = 'pi';
+}
+//この関数を使ってオブジェクトを作成する↓
+
+var bard = new Bard();
+console.log(bard.name);
+
+//コンストラクタ演算子を使うと、引数を受けたり、新しいオブジェクトの作成時に利用できる。
+function Bard2(name){
+  this.name = name;
+  this.whoAreYou = function(){
+    return this.name;
+  }
+}
+
+//プロトタイプ
+//関数オブジェクトにはprototypeプロパティがある。
+function foo(a, b){
+  return a * b;
+}
+foo.prototype = {};
+
+//オブジェクトにプロパティとメソッドを追加
+function Picture(name, color){
+  this.name = name;
+  this.color = color;
+  this.whatAreYou = function(){
+    return this.name;
+  }
+}
+//コンストラクタ関数Pictureにプロパティの追加
+Picture.prototype.price = '100,000';
+
+//コンストラクタ関数Pictureにメソッドの追加
+Picture.prototype.howMuch = function(){ return this.price; };
+
+//プロトタイプのプロパティへアクセス
+var picture = new Picture('munk', 'gray');
+console.log(picture.howMuch());
+
+//プロトタイプの注意
+//プロトタイプをどの時点で変更したとしても、その変更はその修正より前に生成されたオブジェクトに対しても受け継がれる。
+//コンストラクタ関数と、プロトタイプに同名のプロパティが定義されていた場合、コンストラクタ関数が優先される。
+
+//------------------------------
+
+//■まとめ
+//以下のオブジェクトは同じ意味になる
+var o = {}; //オブジェクトリテラル表記
+var o = new Object(); //コンストラクタ関数
+
+//■次回
+//オブジェクト指向JavaScriptの、コーディングパターンとデザインパターンについて
+</script>
+</body>
+</html>
