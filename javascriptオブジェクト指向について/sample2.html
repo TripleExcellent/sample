@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Sample</title>
+</head>
+<body>
+<p>｢ページのソースを表示」で確認ください。</p>
+<script>
+//------------------------------
+//■継承(プロトタイプチェーン)
+//コンストラクタ関数を3つ用意する
+
+function One(){
+  this.name = 'one';
+  this.talk = function() { return this.name; };
+}
+
+function Two(){
+  this.name = 'two';
+}
+
+function Three(){
+  this.name = 'three';
+}
+
+//②OneのインスタンスをTwoのプロトタイプに置き換え
+//③TwoのインスタンスをThreeのプロトタイプに置き換え
+Two.prototype = new One();
+Three.prototype = new Two();
+
+//置き換えることにより、インスタンスのプロパティを継承させることが出来る。
+var three = new Three(); //インスタンスを生成
+
+//Oneしか持ってないはずの、talkメソッドがThreeで呼べる。
+console.log(three.talk());
+
+//置き換えると、constructorの値が変わる
+console.log(three.constructor); //コンストラクタはThreeからOneへ
+
+//プロパティを設定し直す
+three.constructor = Three;
+console.log(three.constructor);
+
+//注意
+//継承に必要なものはインスタンスのみなので、継承元のオブジェクトに影響を及ぼさない
+//プロパティを追加(One.prototype.say = 'Wfo';)せず、インスタンスで置き換え(One.prototype = new Obj();)ているので
+//プロトタイプを置き換えた後に生成されるオブジェクトは、更新されたプロトタイプオブジェクトを利用する
+//プロトタイプを置き換えた後に生成されるオブジェクトのconstructorは継承元のObjectを指すので、プロパティを設定し直す
+
+//■デメリット
+//コンストラクタ関数にプロパティが定義されていた場合、インスタンス化する度にプロパティが生成される
+function Four() {
+  this.name = 'four';
+}
+
+//■改善の方法
+//改善の方法として共通のプロパティをプロトタイプに移動し、インスタンスで共有する方法がある
+function Five(){}
+Five.prototype.name = 'five';
+
+var five = new Five(); 
+
+//Base()を継承したSix()
+
+function Base() {}
+Base.prototype.name = 'base';
+Base.prototype.talk = function() { return this.name; };
+
+function Six( height, width ) {
+  this.height = height;
+  this.width = width;
+}
+
+//継承の処理
+Six.prototype = Base.prototype;
+Six.prototype.construcutor = Six;
+
+Six.prototype.name = 'Six';
+
+var six = new Six(10, 200);
+
+//■以下は次回
+
+//継承部分を関数に分離
+
+//■まとめ
+
+//■コーディングパターン
+
+//<sccript>の挿入位置
+
+//グローバル関数を使わない、名前空間を使う
+
+//JSON
+
+//■デザインパターン
+
+//ファクトリー
+
+//デコレータ
+
+//オブザーバ
+
+</script>
+</body>
+</html>
